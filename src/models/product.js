@@ -22,6 +22,8 @@ ProductModel.pre('save', next => {
     if (!this.creationDate) {
         this.creationDate = now;
     }
+
+    next();
 });
 
 module.exports = mongoose.model('Product', ProductModel);

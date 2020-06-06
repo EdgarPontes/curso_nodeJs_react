@@ -3,7 +3,7 @@ const app = express();
 const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 
-mongoose.connect('mongodb://127.0.0.1:27017/cursoreact', {
+mongoose.connect('mongodb://root:84116593@127.0.0.1:27017/?retryWrites=true&w=majority', {
     useNewUrlParser: true,
     useUnifiedTopology: true,
 });
