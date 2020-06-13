@@ -11,7 +11,7 @@ const UserModel = require('./src/models/user');
 var USERS = [
     { 'id': 1, 'username': 'edgar', 'password': '123456' },
     { 'id': 2, 'username': 'pontes', 'password': '123456' },
-];
+]; 
 
 var HELLO = [
     { 'msg': 'Hello Express' }
@@ -20,6 +20,14 @@ var HELLO = [
 function getHello() {
     return HELLO;
 }
+
+/*const saudacao = () => {
+    var data = new Date()
+    return data.getHours() <= 12 ? "Bom dia" : data.getHours() <= 18 ? "Boa Tarde" : "Boa Noite"
+}
+
+console.log(" saudação é " + saudacao());
+*/
 
 function getUsers() {
     return USERS;
