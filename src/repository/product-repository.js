@@ -20,8 +20,8 @@ exports.update = async (id, data) => {
     return await Product.findByIdAndUpdate(id, {
         $set: {
             name: data.name,
-            email: data.email,
-            password: data.password,
+            price: data.price,
+            description: data.description,
             status: data.status
         }
     });
