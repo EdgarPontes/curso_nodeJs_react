@@ -39,3 +39,11 @@ exports.deleteLogic = async (id, data) => {
     });
 
 }
+
+exports.autenticate = async(data) => {
+    console.log(JSON.stringify(data));
+    return await User.findOne({
+            email: data.email,
+            password: data.password
+        });
+}

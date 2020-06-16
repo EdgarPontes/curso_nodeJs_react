@@ -1,6 +1,7 @@
 'use strict'
 
 const repository = require('../repository/user-repository');
+const jwt = require('jsonwebtoken');
 
 exports.getAllUsers = async (req, res, next) => {
     try {
@@ -53,5 +54,30 @@ exports.deleteUser = async (req, res, next) => {
                 message: 'Ops! Something went worng', error: e
             }
         );
+    }
+};
+
+exports.auth = async(req, res, next) => {
+    try {
+        const user = await repository.autenticate({
+            email: req.body.email,
+            password: req.body.password
+        });
+
+        if(!user){
+            res.status(404).send({
+                message: 'Usuario ou senha inválidos'
+            });
+            return;
+        }
+
+        var token = jwt.sign({userID: user._id}, 'absdfghijklmnopqrstuvwxyz', {expiresIn: '2h'});
+        res.status(201).send({
+            token: token
+        });
+    } catch (e) {
+        res.status(500).send({
+            message: 'Falha ao processar sua requisição ' + e
+        });
     }
 };
