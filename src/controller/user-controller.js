@@ -2,6 +2,7 @@
 
 const repository = require('../repository/user-repository');
 const jwt = require('jsonwebtoken');
+const md5 = require('md5');
 
 exports.getAllUsers = async (req, res, next) => {
     try {
@@ -18,8 +19,11 @@ exports.getAllUsers = async (req, res, next) => {
 
 exports.addUser = async (req, res, next) => {
     try {
-        let dbReturnUser = await repository.create(req.body);
+        let user = await parserBodyUserCreate(req.body);
+        user.password = md5(user.password + 'absdfghijklmnopqrstuvwxyz');
+        let dbReturnUser = await repository.create(user);
         res.status(200).send(dbReturnUser);
+
     } catch (e) {
         res.status(500).send(
             {
@@ -27,6 +31,14 @@ exports.addUser = async (req, res, next) => {
             }
         );
     }
+};
+
+async function parserBodyUserCreate(body){
+    return {
+        name: body.name,
+        email: body.email,
+        password: body.password
+    };
 };
 
 exports.editUser = async (req, res, next) => {
@@ -59,9 +71,10 @@ exports.deleteUser = async (req, res, next) => {
 
 exports.auth = async(req, res, next) => {
     try {
+
         const user = await repository.autenticate({
             email: req.body.email,
-            password: req.body.password
+            password: md5(req.body.password + 'absdfghijklmnopqrstuvwxyz')
         });
 
         if(!user){
